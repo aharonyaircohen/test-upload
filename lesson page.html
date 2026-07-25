@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עריכת שיעור - דמו</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+        }
+        
+        /* Hide all tab contents by default */
+        .tab-content {
+            display: none;
+        }
+        
+        /* Show active tab */
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lucide {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Hide scrollbar for horizontally scrolling tabs on mobile */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-right">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 sm:py-0 sm:h-16 gap-3 sm:gap-0">
+                <!-- Breadcrumbs -->
+                <div class="flex items-center text-sm text-gray-500 overflow-hidden">
+                    <i data-lucide="layout" class="w-5 h-5 ml-2 sm:ml-4 text-gray-400 flex-shrink-0"></i>
+                    <span class="hidden sm:inline">Lessons</span>
+                    <span class="hidden sm:inline mx-2">/</span>
+                    <span class="truncate font-medium text-gray-900">מתמטיקה / חשבון דיפרנציאלי / נקודות קיצון</span>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center w-full sm:w-auto">
+                    <button class="w-full sm:w-auto justify-center px-4 py-2 sm:px-5 sm:py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center shadow-sm transition-colors">
+                        <i data-lucide="save" class="w-4 h-4 ml-2"></i>
+                        שמירת שיעור
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tabs Navigation -->
+            <div class="flex overflow-x-auto scrollbar-hide border-b border-gray-200 mt-2" id="tabs-nav">
+                <button onclick="switchTab('content')" id="tab-btn-content" class="tab-btn flex-shrink-0 flex items-center px-4 sm:px-6 py-3 text-sm font-medium border-b-2 transition-colors border-blue-600 text-blue-600 bg-blue-50/50">
+                    <i data-lucide="file-text" class="w-4 h-4 ml-2"></i>
+                    תוכן
+                </button>
+                <button onclick="switchTab('exercises')" id="tab-btn-exercises" class="tab-btn flex-shrink-0 flex items-center px-4 sm:px-6 py-3 text-sm font-medium border-b-2 transition-colors border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    <i data-lucide="edit-3" class="w-4 h-4 ml-2"></i>
+                    תרגילים
+                </button>
+                <button onclick="switchTab('system')" id="tab-btn-system" class="tab-btn flex-shrink-0 flex items-center px-4 sm:px-6 py-3 text-sm font-medium border-b-2 transition-colors border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    <i data-lucide="settings" class="w-4 h-4 ml-2"></i>
+                    הגדרות מערכת
+                </button>
+                <button onclick="switchTab('seo')" id="tab-btn-seo" class="tab-btn flex-shrink-0 flex items-center px-4 sm:px-6 py-3 text-sm font-medium border-b-2 transition-colors border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                    <i data-lucide="search" class="w-4 h-4 ml-2"></i>
+                    SEO
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 w-full">
+        
+        <!-- Document Title Info -->
+        <div class="mb-4 sm:mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">מתמטיקה / חשבון דיפרנציאלי / נקודות קיצון</h1>
+            <p class="mt-2 text-xs sm:text-sm text-gray-500 flex flex-col sm:flex-row sm:items-center">
+                <span>Last Modified: July 12th 2026, 9:21 AM</span>
+                <span class="hidden sm:inline mx-2">|</span>
+                <span class="mt-1 sm:mt-0">Created: July 1st 2026, 1:02 PM</span>
+            </p>
+        </div>
+
+        <div class="bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
+            <div class="p-4 sm:p-6 md:p-8">
+                
+                <div id="content" class="tab-content active space-y-6 sm:space-y-8">
+                    
+                    <!-- Topic, Chapter, Title & Type -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
+                        <!-- שדה נושא חדש מודגש באדום -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש בתוכן</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">נושא (Topic) <span class="text-red-500">*</span></label>
+                            <input type="text" value="מתמטיקה" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" />
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">פרק (Chapter) <span class="text-red-500">*</span></label>
+                            <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                <input type="text" value="חשבון דיפרנציאלי" class="flex-1 px-3 py-2 outline-none w-full min-w-0" />
+                                <button class="px-2 text-gray-400 hover:text-gray-600 border-r border-gray-200 flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+                                <button class="px-2 text-gray-400 hover:text-gray-600 border-r border-gray-200 flex-shrink-0"><i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                                <button class="px-3 text-gray-500 hover:text-blue-600 bg-gray-50 border-r border-gray-200 flex-shrink-0"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">The chapter this lesson belongs to</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">שם השיעור (Title) <span class="text-red-500">*</span></label>
+                            <input type="text" value="נקודות קיצון" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" />
+                            <p class="mt-1 text-xs text-gray-500">Lesson title</p>
+                        </div>
+
+                        <!-- שדה סוג - הועבר לכאן ונראה רגיל -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">סוג שיעור (Type) <span class="text-red-500">*</span></label>
+                            <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                    <option>Practice</option>
+                                    <option>Exam</option>
+                                </select>
+                                <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- מטרות ופתיח -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 pt-4 border-t border-gray-200">
+                        <!-- מטרת השיעור -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">מטרת השיעור (Lesson Objective)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" placeholder="מה התלמיד אמור לדעת או להבין בסוף השיעור?"></textarea>
+                        </div>
+
+                        <!-- Intro -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Intro (פתיח)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 resize-y"></textarea>
+                            <p class="mt-1 text-xs text-gray-500">Short intro shown on lesson cards before students start</p>
+                        </div>
+                    </div>
+
+                    <!-- HTML Block -->
+                    <div class="border border-gray-200 rounded-md overflow-hidden bg-gray-50 mt-6">
+                        <div class="flex justify-between items-center px-4 py-2 bg-gray-100 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <span>HTML Block</span>
+                            <div class="flex space-x-reverse space-x-1">
+                                <button class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Edit</button>
+                                <button class="px-3 py-1 text-gray-600 hover:bg-gray-200 rounded">Preview</button>
+                            </div>
+                        </div>
+                        <textarea rows="4" placeholder="Enter raw HTML here..." class="w-full bg-white border-0 px-4 py-3 outline-none resize-y font-mono text-sm text-left" dir="ltr"></textarea>
+                    </div>
+
+                    <!-- שדות תוכן: נוסחאות, דוגמאות, טעויות נפוצות, הערות -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 pt-4 border-t border-gray-200 mt-6">
+                        
+                        <!-- נוסחאות -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm md:col-span-2">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">נוסחאות (Formulas)</label>
+                            <textarea rows="2" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white font-mono text-left" dir="ltr" placeholder="למשל: a^2 + b^2 = c^2"></textarea>
+                        </div>
+
+                        <!-- דוגמאות -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm md:col-span-2">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">דוגמאות (Examples)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" placeholder="הכנס דוגמאות להמחשת החומר..."></textarea>
+                        </div>
+                        
+                        <!-- טעויות נפוצות -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">טעויות נפוצות (Common Mistakes)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" placeholder="מה התלמידים בדרך כלל טועים בו?"></textarea>
+                        </div>
+
+                        <!-- הערות נוספות -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">הערות נוספות (Additional Notes)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" placeholder="דגשים נוספים למורה או למערכת..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- רצף לימודי: Order, Prerequisites, Next Lessons -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-4 border-t border-gray-200 mt-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Order <span class="text-red-500">*</span></label>
+                            <input type="number" value="8" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" />
+                            <p class="mt-1 text-xs text-gray-500">Sort order within the course</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Prerequisites (לפני)</label>
+                            <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden p-1.5 flex-wrap gap-2 focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                    תחום גיאומטרי / זווית - בסיס
+                                    <button class="ml-1 text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-3 h-3"></i></button>
+                                </span>
+                                <input type="text" class="flex-1 min-w-[100px] outline-none text-sm px-1 bg-transparent" placeholder="Add..." />
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Lessons students should complete before</p>
+                        </div>
+
+                        <!-- שיעורים אחרי -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">שיעורים אחרי (Next Lessons)</label>
+                            <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden p-1.5 flex-wrap gap-2 focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                <input type="text" class="flex-1 min-w-[100px] outline-none text-sm px-1 bg-transparent bg-white" placeholder="Add..." />
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500 text-gray-600">Recommended follow-up lessons</p>
+                        </div>
+                    </div>
+
+                    <!-- Content Files & AI Context -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 pt-6 border-t border-gray-200">
+                        <div>
+                            <h3 class="text-md font-bold text-gray-900 mb-3">Content Files</h3>
+                            
+                            <!-- Existing File -->
+                            <div class="border border-gray-200 rounded-md p-2 mb-3 bg-white flex items-center justify-between">
+                                <div class="flex items-center text-sm w-full overflow-hidden min-w-0">
+                                    <i data-lucide="grip-vertical" class="w-4 h-4 text-gray-400 mr-1 ml-1 sm:ml-2 cursor-grab flex-shrink-0"></i>
+                                    <div class="bg-gray-800 text-white p-1.5 rounded mr-1 sm:mr-2 ml-1 sm:ml-2 flex-shrink-0">
+                                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                                    </div>
+                                    <span class="truncate flex-1" dir="ltr">cfwzRVAXsRvlRHtzq00GgfDBqgsacf.pdf</span>
+                                </div>
+                                <div class="flex space-x-reverse space-x-1 text-gray-400 flex-shrink-0 mr-2">
+                                    <button class="p-1 hover:text-gray-700"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                    <button class="p-1 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                            
+                            <!-- Upload Area -->
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 flex flex-col items-center justify-center text-center bg-gray-50">
+                                <i data-lucide="file-up" class="w-8 h-8 text-gray-400 mb-2"></i>
+                                <div class="flex flex-col sm:flex-row items-center gap-2 text-sm w-full">
+                                    <button class="w-full sm:w-auto px-3 py-2 sm:py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 font-medium">Create New</button>
+                                    <span class="text-gray-500">or</span>
+                                    <button class="w-full sm:w-auto px-3 py-2 sm:py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 font-medium">Choose from existing</button>
+                                </div>
+                                <p class="mt-3 sm:mt-2 text-xs text-gray-500">or drag and drop a file</p>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Upload lesson content files (PDFs, videos, images, etc.)</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-md font-bold text-gray-900 mb-3">AI & Context</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Lesson Context Text</label>
+                                    <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                    <p class="mt-1 text-xs text-gray-500">AI context text for this lesson. Injected into chat prompts at runtime.</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Prompt</label>
+                                    <textarea rows="2" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="exercises" class="tab-content space-y-6 sm:space-y-8">
+                    
+                    <!-- Exercise Conversion -->
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Exercise Conversion</h3>
+                        <p class="text-sm text-gray-500 mb-4">Convert uploaded PDFs into interactive exercises.</p>
+                        <div class="border border-gray-200 rounded-md p-3 sm:p-4 bg-gray-50 mb-6">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div class="flex items-center text-sm font-medium text-gray-700 w-full overflow-hidden min-w-0">
+                                    <span class="text-xs font-bold text-red-500 bg-red-50 px-1 py-0.5 rounded ml-2 flex-shrink-0">PDF</span>
+                                    <span class="truncate flex-1" dir="ltr">...RvlRHtzq00GgfDB.pdf</span>
+                                </div>
+                                <div class="flex w-full sm:w-auto gap-2">
+                                    <button class="flex-1 sm:flex-none bg-gray-900 text-white text-xs px-3 py-2 rounded hover:bg-gray-800 shadow-sm transition-colors text-center">Full Convert</button>
+                                    <button class="flex-1 sm:flex-none bg-gray-900 text-white text-xs px-3 py-2 rounded hover:bg-gray-800 shadow-sm transition-colors text-center">Steps Convert</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lesson Blocks -->
+                    <div class="pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Lesson Blocks</h3>
+                        <p class="text-sm text-gray-500 mb-4">Ordered playlist of exercises and content pages. Defines the lesson flow.</p>
+                        
+                        <div class="space-y-3">
+                            <!-- Block Item 1 (Expanded) -->
+                            <div class="border border-blue-200 rounded-md bg-white shadow-sm overflow-hidden">
+                                <div class="flex flex-wrap sm:flex-nowrap items-center px-3 py-2 bg-blue-50/50 border-b border-blue-100 gap-y-2">
+                                    <div class="flex items-center flex-1 min-w-[200px]">
+                                        <i data-lucide="grip-vertical" class="w-4 h-4 text-gray-400 cursor-grab ml-1 sm:ml-2 flex-shrink-0"></i>
+                                        <span class="text-xs text-gray-500 w-4 sm:w-6 text-center flex-shrink-0">1</span>
+                                        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded font-medium ml-2 sm:ml-3 flex items-center flex-shrink-0">
+                                            <i data-lucide="code" class="w-3 h-3 ml-1"></i> <span class="hidden sm:inline">Exercise</span>
+                                        </span>
+                                        <span class="font-medium flex-1 truncate text-sm sm:text-base">תרגיל 138</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-400 space-x-reverse space-x-1 sm:space-x-2 mr-auto sm:mr-0 pl-1">
+                                        <button class="hover:text-blue-600 p-1 transition-colors"><i data-lucide="chevron-down" class="w-4 h-4 transform rotate-180"></i></button>
+                                        <button class="hover:text-gray-700 p-1 transition-colors"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                        <button class="hover:text-red-500 p-1 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-white">
+                                    <div class="border border-dashed border-gray-300 bg-gray-50 rounded p-6 text-center text-sm text-gray-500 flex flex-col items-center justify-center">
+                                        <i data-lucide="image" class="w-8 h-8 text-gray-300 mb-2"></i>
+                                        LATEX / Content Area
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Block Item 2 (Collapsed) -->
+                            <div class="border border-gray-200 rounded-md bg-white shadow-sm flex flex-wrap sm:flex-nowrap items-center px-3 py-3 hover:border-gray-300 transition-colors cursor-pointer gap-y-2">
+                                <div class="flex items-center flex-1 min-w-[200px]">
+                                    <i data-lucide="grip-vertical" class="w-4 h-4 text-gray-400 cursor-grab ml-1 sm:ml-2 flex-shrink-0"></i>
+                                    <span class="text-xs text-gray-500 w-4 sm:w-6 text-center flex-shrink-0">2</span>
+                                    <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded font-medium ml-2 sm:ml-3 flex items-center flex-shrink-0">
+                                        <i data-lucide="file-text" class="w-3 h-3 ml-1"></i> <span class="hidden sm:inline">Exercise</span>
+                                    </span>
+                                    <span class="font-medium flex-1 flex items-center truncate text-sm sm:text-base">
+                                        תרגיל 159
+                                        <span class="text-gray-400 font-normal text-xs mr-2 italic hidden sm:inline">(includes diagram)</span>
+                                    </span>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600 p-1 mr-auto sm:mr-0 pl-1"><i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                            </div>
+                            
+                            <button class="mt-3 w-full sm:w-auto justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 flex items-center shadow-sm transition-colors">
+                                <i data-lucide="plus" class="w-4 h-4 ml-2"></i> Create Exercises
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="system" class="tab-content space-y-6 sm:space-y-8">
+                    
+                    <!-- System Actions Area -->
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 sm:p-5 mb-6 sm:mb-8">
+                        <h3 class="text-sm font-bold text-blue-900 mb-3 flex items-center">
+                            <i data-lucide="settings" class="w-4 h-4 ml-2"></i>
+                            פעולות מערכת
+                        </h3>
+                        <div class="flex flex-wrap gap-2 sm:gap-3">
+                            <button class="flex-1 sm:flex-none justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center shadow-sm transition-colors">
+                                <i data-lucide="globe" class="w-4 h-4 ml-2 text-gray-500"></i> Translate
+                            </button>
+                            <button class="flex-1 sm:flex-none justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center shadow-sm transition-colors">
+                                <i data-lucide="file-json" class="w-4 h-4 ml-2 text-gray-500"></i> Export JSON
+                            </button>
+                            <button class="flex-1 sm:flex-none justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center shadow-sm transition-colors">
+                                <i data-lucide="copy" class="w-4 h-4 ml-2 text-gray-500"></i> Duplicate
+                            </button>
+                            <button class="flex-1 sm:flex-none justify-center px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-md hover:bg-red-50 flex items-center shadow-sm transition-colors">
+                                <i data-lucide="trash" class="w-4 h-4 ml-2 text-red-500"></i> Cascade Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6 pt-2">
+                        <!-- Column 1 -->
+                        <div class="space-y-6">
+                            <!-- שדה מזהה שיעור חדש מודגש באדום -->
+                            <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 relative shadow-sm">
+                                <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                                <label class="block text-sm font-medium text-gray-800 mb-1">מזהה שיעור (Lesson ID)</label>
+                                <div class="flex bg-gray-100 border border-gray-300 rounded-md shadow-sm overflow-hidden">
+                                    <input type="text" value="lsn_8x92kfd7" readonly class="flex-1 px-3 py-2 outline-none bg-transparent font-mono text-sm text-left text-gray-600 cursor-not-allowed" dir="ltr" />
+                                    <button class="px-3 text-gray-400 hover:text-gray-600 border-l border-gray-300 bg-gray-50 flex-shrink-0 transition-colors" title="Copy ID">
+                                        <i data-lucide="copy" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">System generated unique identifier</p>
+                            </div>
+
+                            <!-- שדה קורס שהועבר להגדרות ומודגש באדום -->
+                            <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 relative shadow-sm">
+                                <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">הועבר להגדרות מערכת</span>
+                                <label class="block text-sm font-medium text-gray-800 mb-1">Course (קורס) <span class="text-red-500">*</span></label>
+                                <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                    <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                        <option>בגרות 5 יח"ל</option>
+                                        <option>הכנה לכיתה ז</option>
+                                    </select>
+                                    <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status <span class="text-red-500">*</span></label>
+                                <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                    <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                        <option>Published</option>
+                                        <option>Draft</option>
+                                    </select>
+                                    <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">Publication status of the lesson</p>
+                            </div>
+
+                            <div>
+                                <label class="flex items-center text-sm font-medium text-gray-900 mb-1 cursor-pointer">
+                                    <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 ml-2" />
+                                    Is Active <span class="text-red-500 mr-1">*</span>
+                                </label>
+                                <p class="mt-1 text-xs text-gray-500">Whether this lesson is currently active</p>
+                            </div>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tenant <span class="text-red-500">*</span></label>
+                                <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                    <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                        <option>AGuy</option>
+                                    </select>
+                                    <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">Tenant scope for this document</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Locale <span class="text-red-500">*</span></label>
+                                <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                    <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                        <option>HE</option>
+                                        <option>EN</option>
+                                    </select>
+                                    <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">Content language</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Translated From</label>
+                                <div class="flex bg-gray-100 border border-gray-200 rounded-md shadow-sm overflow-hidden">
+                                    <select disabled class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none text-gray-500">
+                                        <option>Select a value</option>
+                                    </select>
+                                    <div class="px-2 flex items-center pointer-events-none text-gray-400 border-r border-gray-200">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">Source document</p>
+                            </div>
+                        </div>
+
+                        <!-- Column 3 -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Access Type <span class="text-red-500">*</span></label>
+                                <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                    <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                        <option>Inherit from Course</option>
+                                        <option>Gated</option>
+                                    </select>
+                                    <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">Access control for this lesson</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
+                                <input type="text" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none font-mono text-sm text-left focus:ring-1 focus:ring-blue-500 focus:border-blue-500" dir="ltr" value="nekudot-kitzon" />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Visible renderers</label>
+                                <input type="text" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" placeholder="Default..." />
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Content status</label>
+                                    <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                        <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none">
+                                            <option>Ready</option>
+                                            <option>Draft</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Content status exp</label>
+                                    <input type="text" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="seo" class="tab-content space-y-6 sm:space-y-8">
+                    
+                    <div class="mb-4 sm:mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">הגדרות SEO וקידום אורגני</h3>
+                        <p class="text-sm text-gray-500">הגדרות אלו משפיעות על האופן בו עמוד השיעור יופיע במנועי חיפוש (כמו Google) וברשתות חברתיות בעת שיתוף.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        
+                        <!-- Meta Title -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">כותרת מטא (Meta Title)</label>
+                            <input type="text" value="נקודות קיצון של פולינום | בגרות במתמטיקה 5 יח״ל" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" />
+                            <p class="mt-1 text-xs text-gray-500">הכותרת כפי שתוצג בטאב הדפדפן ובתוצאות של מנועי החיפוש. מומלץ עד 60 תווים.</p>
+                        </div>
+
+                        <!-- Meta Description -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">תיאור מטא (Meta Description)</label>
+                            <textarea rows="3" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white" placeholder="תיאור קצר ומושך של תוכן השיעור..."></textarea>
+                            <p class="mt-1 text-xs text-gray-500">התקציר שיופיע מתחת לכותרת במנועי החיפוש. מומלץ בין 150-160 תווים.</p>
+                        </div>
+
+                        <!-- Target Keywords -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">מילות מפתח (Keywords / Tags)</label>
+                            <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden p-1.5 flex-wrap gap-2 focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                                    נקודות קיצון
+                                    <button class="ml-1 text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-3 h-3"></i></button>
+                                </span>
+                                <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                                    בגרות במתמטיקה
+                                    <button class="ml-1 text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-3 h-3"></i></button>
+                                </span>
+                                <input type="text" class="flex-1 min-w-[100px] outline-none text-sm px-1 bg-transparent" placeholder="הוסף מילת מפתח..." />
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">מופרד בפסיקים (Enter להוספה)</p>
+                        </div>
+
+                        <!-- Search Visibility (Robots) -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">נראות מנועי חיפוש (Robots Meta)</label>
+                            <div class="flex bg-white border border-gray-300 rounded-md shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                                <select class="flex-1 px-3 py-2 outline-none bg-transparent appearance-none text-gray-700">
+                                    <option>Index, Follow (אפשר סריקה - מומלץ)</option>
+                                    <option>NoIndex, Follow (אל תציג בתוצאות)</option>
+                                    <option>NoIndex, NoFollow (הסתר לחלוטין)</option>
+                                </select>
+                                <div class="px-2 flex items-center pointer-events-none text-gray-500 border-r border-gray-200">
+                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">קובע האם גוגל יסרוק ויציג עמוד זה.</p>
+                        </div>
+
+                        <!-- Canonical URL -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">כתובת קנונית (Canonical URL)</label>
+                            <input type="url" class="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white font-mono text-sm text-left" dir="ltr" placeholder="https://..." />
+                            <p class="mt-1 text-xs text-gray-500">השאר ריק כדי להשתמש בכתובת המקורית של עמוד זה. נועד למניעת תוכן כפול.</p>
+                        </div>
+
+                        <!-- Social Open Graph Image -->
+                        <div class="border-2 border-red-500 bg-red-50 rounded-lg p-3 sm:p-4 relative shadow-sm">
+                            <span class="absolute -top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">שדה חדש</span>
+                            <label class="block text-sm font-medium text-gray-800 mb-1">תמונת שיתוף (Social Share Image)</label>
+                            <div class="flex items-center gap-3 mt-2">
+                                <div class="w-20 h-20 bg-gray-200 rounded border border-gray-300 flex items-center justify-center text-gray-400 overflow-hidden shrink-0">
+                                    <i data-lucide="image" class="w-6 h-6"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <button class="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50 shadow-sm transition-colors mb-1">
+                                        העלה תמונה
+                                    </button>
+                                    <p class="text-xs text-gray-500">מומלץ בגודל 1200x630px. התמונה שתוצג בשיתוף בוואטסאפ, פייסבוק וכו'.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // 1. Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 2. Reset all tab buttons styling
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                // Remove active styling classes
+                btn.classList.remove('border-blue-600', 'text-blue-600', 'bg-blue-50/50');
+                // Add inactive styling classes
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+
+            // 3. Show targeted tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // 4. Style targeted tab button
+            const activeBtn = document.getElementById('tab-btn-' + tabId);
+            // Remove inactive styling
+            activeBtn.classList.remove('border-transparent', 'text-gray-500');
+            // Add active styling
+            activeBtn.classList.add('border-blue-600', 'text-blue-600', 'bg-blue-50/50');
+        }
+    </script>
+</body>
+</html>
